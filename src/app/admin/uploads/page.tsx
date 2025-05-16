@@ -1,8 +1,6 @@
-// src/app/admin/uploads/page.tsx
 'use client'
 
 import useSWR from 'swr'
-import { useRouter } from 'next/navigation'
 
 type Upload = {
   id:          string
@@ -20,10 +18,12 @@ const fetcher = (url: string) => fetch(url).then(r => r.json())
 
 export default function AdminUploadsPage() {
   const { data, error, mutate } = useSWR<Upload[]>('/api/admin/uploads', fetcher)
-  const router = useRouter()
 
-  if (error)   return <p className="p-6 text-red-600">Failed to load uploads</p>
-  if (!data)  return <p className="p-6">Loading…</p>
+  if (error) {
+    console.error('Failed to load uploads:', error)
+    return <p className="p-6 text-red-600">Failed to load uploads</p>
+  }
+  if (!data) return <p className="p-6">Loading…</p>
 
   const toggle = async (id: string, approve: boolean) => {
     await fetch(`/api/admin/uploads/${id}`, {

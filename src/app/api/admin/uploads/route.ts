@@ -6,7 +6,7 @@ const svc = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   const { data, error } = await svc
     .from('user_uploads')
     .select('id, filename, size_bytes, uploaded_at, is_approved, users(full_name,email)')

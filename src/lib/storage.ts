@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
 // you probably already have these in env-vars
 const supabaseUrl = 'https://tcjrcieasqixejxvueau.supabase.co';

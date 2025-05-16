@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Layout from '../components/Layout';
 
 export default function TwoFASetup() {
   const [codeSent, setCodeSent] = useState(false);

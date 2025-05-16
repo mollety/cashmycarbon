@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  supabase:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - supabase-data:/var/lib/postgresql/data
+
+  nextjs-app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=http://localhost:5432
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=NEXT_PUBLIC_SUPABASE_ANON_KEY
+    depends_on:
+      - supabase
+
+volumes:
+  supabase-data:

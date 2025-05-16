@@ -1,0 +1,8 @@
+node_modules
+Dockerfile
+.dockerignore
+.env           # ignore default local env
+.env.local     # ignore local dev env
+.git
+.gitignore
+npm-debug.log

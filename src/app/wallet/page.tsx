@@ -1,15 +1,21 @@
-// ✅ Wallet Page reads user_name from localStorage and includes Logout
 'use client';
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+
+type ActivityLog = {
+  date: string;
+  action: string;
+  amount: number;
+};
 
 export default function WalletPage() {
   const router = useRouter();
   const [name, setName] = useState('User');
   const [credits, setCredits] = useState<number | null>(null);
   const [earnings, setEarnings] = useState<number | null>(null);
-  const [activity, setActivity] = useState<any[]>([]);
+  const [activity, setActivity] = useState<ActivityLog[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +42,7 @@ export default function WalletPage() {
         .eq('user_id', userId)
         .order('date', { ascending: false });
 
-      if (logs) setActivity(logs);
+      if (logs) setActivity(logs as ActivityLog[]);
     };
 
     fetchData();
@@ -51,7 +57,12 @@ export default function WalletPage() {
     <div className="max-w-5xl mx-auto p-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">Welcome, {name}!</h1>
-        <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Logout
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -90,7 +101,9 @@ export default function WalletPage() {
               ))
             ) : (
               <tr className="border-t">
-                <td colSpan={3} className="py-4 text-center text-gray-400">No activity yet.</td>
+                <td colSpan={3} className="py-4 text-center text-gray-400">
+                  No activity yet.
+                </td>
               </tr>
             )}
           </tbody>
